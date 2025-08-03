@@ -1,0 +1,47 @@
+﻿@page
+@model Distributor_Web_App.Pages.CozyComfortInventory.BlanketModelsModel
+@using System.Globalization;
+@{
+    ViewData["Title"] = "Blanket Models";
+}
+
+<h1>Available Blanket Models</h1>
+
+@if (!ModelState.IsValid)
+{
+    <div class="alert alert-danger" role="alert">
+        @foreach (var modelState in ViewData.ModelState.Values)
+        {
+            foreach (var error in modelState.Errors)
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        }
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.BlanketModels[0].ModelName)</th>
+            <th>@Html.DisplayNameFor(model => model.BlanketModels[0].Description)</th>
+            <th>@Html.DisplayNameFor(model => model.BlanketModels[0].Price)</th>
+            <th>@Html.DisplayNameFor(model => model.BlanketModels[0].Stock)</th>
+            <th>@Html.DisplayNameFor(model => model.BlanketModels[0].MaterialName)</th>
+            <th>@Html.DisplayNameFor(model => model.BlanketModels[0].MaterialDescription)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var blanketModel in Model.BlanketModels)
+        {
+            <tr>
+                <td>@blanketModel.ModelName</td>
+                <td>@blanketModel.Description</td>
+                <td>LKR @blanketModel.Price)</td>
+                <td>@blanketModel.Stock</td>
+                <td>@blanketModel.MaterialName</td>
+                <td>@blanketModel.MaterialDescription</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,40 @@
+﻿@page
+@model Distributor_Web_App.Pages.CozyComfortInventory.MaterialsModel
+@{
+    ViewData["Title"] = "Materials Inventory";
+}
+
+<h1>Manufacturer Materials Inventory</h1>
+
+@if (!ModelState.IsValid)
+{
+    <div class="alert alert-danger" role="alert">
+        @foreach (var modelState in ViewData.ModelState.Values)
+        {
+            foreach (var error in modelState.Errors)
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        }
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Materials[0].MaterialID)</th>
+            <th>@Html.DisplayNameFor(model => model.Materials[0].MaterialName)</th>
+            <th>@Html.DisplayNameFor(model => model.Materials[0].Description)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var material in Model.Materials)
+        {
+            <tr>
+                <td>@material.MaterialID</td>
+                <td>@material.MaterialName</td>
+                <td>@material.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>
