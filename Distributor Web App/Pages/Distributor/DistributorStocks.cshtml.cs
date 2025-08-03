@@ -32,22 +32,19 @@ namespace Distributor_Web_App.Pages.Distributor.DistributorStocks
             await LoadDataAsync();
         }
 
-        // FIX: The method signature has been changed back to not accept a parameter.
-        // It will now use the [BindProperty] NewStock object directly.
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostAddAsync()
         {
-            // We will proceed even if model binding fails for the Inventory field,
-            // as you can edit it later.
-            // A check for ModelState.IsValid is still useful for other fields like ModelID.
+            // The StockLevel field is now handled automatically, so we only need to check
+            // if the ModelID is valid.
             if (!ModelState.IsValid)
             {
                 await LoadDataAsync();
                 return Page();
             }
 
-            // FIX: Explicitly set the inventory to 0 to bypass the binding issue from the form.
-            // This allows the stock item to be created, and you can edit the inventory later.
+            // As requested, we will explicitly set the stock level to 0 when adding a new stock item.
+            // The user can then use the 'Edit' function to update the stock.
             NewStock.Inventory = 0;
 
             // TODO: Replace '1' with a dynamic distributorId

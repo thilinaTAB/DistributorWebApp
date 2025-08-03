@@ -54,6 +54,7 @@
                     </button>
                     <form method="post" asp-page-handler="Delete" style="display:inline;">
                         <input type="hidden" name="id" value="@stockItem.DistributorStockID" />
+                        @Html.AntiForgeryToken()
                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this stock item?');">Delete</button>
                     </form>
                 </td>
@@ -67,22 +68,18 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <form method="post" asp-page-handler="Add">
+                @Html.AntiForgeryToken()
                 <div class="modal-header">
                     <h5 class="modal-title" id="addStockModalLabel">Add New Stock</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label asp-for="NewStock.ModelID">Blanket Model</label>
-                        <select asp-for="NewStock.ModelID" class="form-control" asp-items="@(new SelectList(Model.BlanketModels, "ModelID", "ModelName"))">
+                        <label for="new-model-id">Blanket Model</label>
+                        <select id="new-model-id" name="NewStock.ModelID" class="form-control" asp-items="@(new SelectList(Model.BlanketModels, "ModelID", "ModelName"))">
                             <option value="">-- Select a Model --</option>
                         </select>
                         <span asp-validation-for="NewStock.ModelID" class="text-danger"></span>
-                    </div>
-                    <div class="form-group mt-3">
-                        <label asp-for="NewStock.Inventory">Inventory</label>
-                        <input asp-for="NewStock.Inventory" class="form-control" />
-                        <span asp-validation-for="NewStock.Inventory" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -99,6 +96,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <form method="post" asp-page-handler="Edit">
+                @Html.AntiForgeryToken()
                 <div class="modal-header">
                     <h5 class="modal-title" id="editStockModalLabel">Edit Stock</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
