@@ -4,10 +4,8 @@ using Distributor_Web_App.Models;
 using System.Text.Json;
 using System.Text;
 
-// The namespace must match the folder structure
 namespace Distributor_Web_App.Pages.Distributor.DistributorStocks
 {
-    // The class name must match the file name: DistributorStocks
     public class DistributorStocksModel : PageModel
     {
         private readonly HttpClient _httpClient;
@@ -35,19 +33,14 @@ namespace Distributor_Web_App.Pages.Distributor.DistributorStocks
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostAddAsync()
         {
-            // The StockLevel field is now handled automatically, so we only need to check
-            // if the ModelID is valid.
             if (!ModelState.IsValid)
             {
                 await LoadDataAsync();
                 return Page();
             }
 
-            // As requested, we will explicitly set the stock level to 0 when adding a new stock item.
-            // The user can then use the 'Edit' function to update the stock.
             NewStock.Inventory = 0;
 
-            // TODO: Replace '1' with a dynamic distributorId
             NewStock.DistributorID = 1;
 
             var jsonContent = JsonSerializer.Serialize(NewStock);
@@ -61,7 +54,6 @@ namespace Distributor_Web_App.Pages.Distributor.DistributorStocks
             }
             else
             {
-                // On a successful save, clear the NewStock object to reset the form.
                 NewStock = new DistributorStockWriteDTO();
             }
 
@@ -102,7 +94,6 @@ namespace Distributor_Web_App.Pages.Distributor.DistributorStocks
 
         private async Task LoadDataAsync()
         {
-            // TODO: Replace '1' with a dynamic value
             int distributorId = 1;
 
             try

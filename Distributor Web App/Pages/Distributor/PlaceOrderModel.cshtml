@@ -1,0 +1,66 @@
+﻿@page
+@model Distributor_Web_App.Pages.Distributor.PlaceOrderModel
+@{
+    ViewData["Title"] = "Place an Order";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title text-center mb-0">Place an Order</h3>
+                </div>
+                <div class="card-body">
+
+                    @* Display a success message from TempData if it exists *@
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Success!</strong> @TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    @* Display validation errors from ModelState *@
+                    @if (!ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            <ul class="mb-0">
+                                @foreach (var modelState in ViewData.ModelState.Values)
+                                {
+                                    @foreach (var error in modelState.Errors)
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    }
+
+                    <form method="post">
+                        <div class="form-group mb-3">
+                            <label asp-for="Order.ModelID" class="form-label">Blanket Model</label>
+                            <select asp-for="Order.ModelID" asp-items="Model.BlanketModelsDropdown" class="form-control">
+                                <option value="">-- Select a Model --</option>
+                            </select>
+                            <span asp-validation-for="Order.ModelID" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Order.Quantity" class="form-label">Quantity</label>
+                            <input asp-for="Order.Quantity" class="form-control" />
+                            <span asp-validation-for="Order.Quantity" class="text-danger"></span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Submit Order</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

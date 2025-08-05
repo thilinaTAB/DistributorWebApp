@@ -1,0 +1,81 @@
+﻿@page
+@model Distributor_Web_App.Pages.OrderHistoryModel
+@{
+    ViewData["Title"] = "Order History";
+}
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+</style>
+
+<div class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-4xl">
+        <h1 class="text-4xl font-bold text-center mb-6 text-gray-800">Order History</h1>
+        <p class="text-center text-gray-600 mb-8">
+            This is a list of all orders for distributor.
+        </p>
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="text-center p-6 bg-red-100 border border-red-400 text-red-700 rounded-lg mb-8">
+                <p class="font-medium">@Model.ErrorMessage</p>
+            </div>
+        }
+        else if (Model.Orders.Any())
+        {
+            <!-- Order Table -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white rounded-lg shadow-inner">
+                    <thead>
+                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                            <th class="py-3 px-6 text-left rounded-tl-lg">Order ID</th>
+                            <th class="py-3 px-6 text-left">Order Date</th>
+                            <th class="py-3 px-6 text-left">Blanket Model</th>
+                            <th class="py-3 px-6 text-center">Quantity</th>
+                            <th class="py-3 px-6 text-center">Unit Price</th>
+                            <th class="py-3 px-6 text-center">Total</th>
+                            <th class="py-3 px-6 text-center rounded-tr-lg">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-600 text-sm font-light">
+                        @foreach (var order in Model.Orders)
+                        {
+                            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                <td class="py-3 px-6 text-left whitespace-nowrap">@order.OrderID</td>
+                                <td class="py-3 px-6 text-left">@order.OrderDate.ToShortDateString()</td>
+                                <td class="py-3 px-6 text-left">@order.ModelName</td>
+                                <td class="py-3 px-6 text-center">@order.Quantity</td>
+                                <td class="py-3 px-6 text-center">LKR @order.Price.ToString()</td>
+                                <td class="py-3 px-6 text-center font-semibold">LKR @order.Total.ToString()</td>
+                                <td class="py-3 px-6 text-center">
+                                    @{
+                                        var statusClass = order.Status switch
+                                        {
+                                            "Accepted" => "bg-green-200 text-green-800",
+                                            "Rejected" => "bg-red-200 text-red-800",
+                                            _ => "bg-yellow-200 text-yellow-800"
+                                        };
+                                        <span class="py-1 px-3 rounded-full text-xs font-medium @statusClass">
+                                            @order.Status
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <!-- No orders found message -->
+            <div class="text-center p-6 bg-blue-100 border border-blue-400 text-blue-700 rounded-lg">
+                <p class="font-medium">No orders found for this distributor.</p>
+            </div>
+        }
+    </div>
+</div>
